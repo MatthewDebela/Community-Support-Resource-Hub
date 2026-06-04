@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Support Resource Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1a2e1a;
+    --sage: #4a7c59;
+    --sage-light: #6a9e78;
+    --mint: #c8e6c9;
+    --cream: #f7f3ec;
+    --warm-white: #fdfaf5;
+    --amber: #d4820a;
+    --amber-light: #f0a830;
+    --rust: #b85c2a;
+    --text-dark: #1c1c1c;
+    --text-mid: #4a4a4a;
+    --text-light: #7a7a7a;
+    --border: #e0d8cc;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 24px rgba(26,46,26,0.08);
+    --shadow-lg: 0 12px 48px rgba(26,46,26,0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--forest);
+    color: white;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .header-icon {
+    width: 36px; height: 36px;
+    background: var(--sage);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.01em;
+  }
+  .header-sub {
+    font-size: 0.72rem;
+    color: var(--mint);
+    opacity: 0.75;
+    font-weight: 300;
+  }
+  .header-user {
+    font-size: 0.85rem;
+    color: var(--mint);
+    background: rgba(255,255,255,0.1);
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  /* ─── LAYOUT ─── */
+  .app {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* ─── SIDEBAR NAV ─── */
+  .sidebar {
+    position: sticky;
+    top: 88px;
+  }
+  .sidebar-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .sidebar-greeting {
+    background: var(--forest);
+    color: white;
+    padding: 1.25rem 1.25rem 1rem;
+  }
+  .sidebar-greeting-label {
+    font-size: 0.72rem;
+    color: var(--mint);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  .sidebar-greeting-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    transition: all 0.15s ease;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover { background: var(--warm-white); color: var(--forest); }
+  .nav-item.active {
+    background: #f0f7f0;
+    color: var(--sage);
+    border-left-color: var(--sage);
+    font-weight: 600;
+  }
+  .nav-item.completed .nav-dot {
+    background: var(--sage);
+  }
+  .nav-icon { font-size: 1.1rem; width: 22px; text-align: center; }
+  .nav-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--border);
+    margin-left: auto;
+    transition: background 0.3s;
+  }
+  .nav-divider { height: 1px; background: var(--border); margin: 0.25rem 0; }
+
+  /* ─── MAIN PANEL ─── */
+  .main-panel { min-height: 500px; }
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.25rem;
+  }
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--forest);
+    margin-bottom: 0.35rem;
+  }
+  .card-sub {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 1.75rem;
+    line-height: 1.5;
+  }
+
+  /* ─── FORM ELEMENTS ─── */
+  .form-group { margin-bottom: 1.25rem; }
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.5rem;
+  }
+  input[type="text"], input[type="number"], input[type="tel"] {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background: var(--warm-white);
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  input:focus { border-color: var(--sage); background: white; }
+  input.error { border-color: var(--rust); }
+  .field-error { color: var(--rust); font-size: 0.78rem; margin-top: 0.3rem; display: none; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    padding: 0.75rem 1.75rem;
+    border-radius: 10px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--forest);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--sage); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,46,26,0.2); }
+  .btn-secondary {
+    background: var(--warm-white);
+    color: var(--text-mid);
+    border: 1.5px solid var(--border);
+  }
+  .btn-secondary:hover { background: var(--mint); border-color: var(--sage-light); color: var(--forest); }
+  .btn-amber {
+    background: var(--amber);
+    color: white;
+  }
+  .btn-amber:hover { background: var(--amber-light); transform: translateY(-1px); }
+  .btn-group { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+  /* ─── RESULT BOX ─── */
+  .result-box {
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .result-box.eligible {
+    background: #edf7ed;
+    border: 1.5px solid #a5d6a7;
+  }
+  .result-box.ineligible {
+    background: #fff3e0;
+    border: 1.5px solid #ffcc80;
+  }
+  .result-icon { font-size: 2rem; }
+  .result-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  .result-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--forest);
+  }
+  .result-note { font-size: 0.8rem; color: var(--text-light); margin-top: 0.2rem; }
+
+  /* ─── RESOURCE LINKS ─── */
+  .resource-category {
+    margin-bottom: 1.5rem;
+  }
+  .resource-category-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .resource-category-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .resource-link-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    text-decoration: none;
+    color: var(--text-dark);
+    background: var(--warm-white);
+    margin-bottom: 0.5rem;
+    transition: all 0.15s ease;
+    cursor: pointer;
+  }
+  .resource-link-card:hover {
+    border-color: var(--sage-light);
+    background: #f0f7f0;
+    transform: translateX(3px);
+  }
+  .resource-link-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .icon-food { background: #fff3e0; }
+  .icon-housing { background: #e3f2fd; }
+  .icon-education { background: #f3e5f5; }
+  .resource-link-body { flex: 1; }
+  .resource-link-name { font-weight: 600; font-size: 0.9rem; }
+  .resource-link-desc { font-size: 0.78rem; color: var(--text-light); margin-top: 0.1rem; }
+  .resource-link-arrow { color: var(--text-light); font-size: 0.9rem; }
+
+  /* ─── CONTACTS ─── */
+  .contact-entry {
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    padding: 1rem 1.1rem;
+    margin-bottom: 1rem;
+    background: var(--warm-white);
+    position: relative;
+  }
+  .contact-entry-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sage);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .contact-remove {
+    position: absolute;
+    top: 0.75rem; right: 0.75rem;
+    background: none; border: none;
+    color: var(--text-light); cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.15s;
+  }
+  .contact-remove:hover { color: var(--rust); }
+  .add-contact-btn {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1.5px dashed var(--border);
+    border-radius: 10px;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .add-contact-btn:hover { border-color: var(--sage-light); color: var(--sage); background: #f0f7f0; }
+
+  /* ─── AID PROGRAMS ─── */
+  .program-card {
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    padding: 1.25rem 1.35rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--warm-white);
+  }
+  .program-card:hover:not(.applied) {
+    border-color: var(--amber);
+    background: #fff8ee;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(212,130,10,0.1);
+  }
+  .program-card.applied {
+    border-color: var(--sage-light);
+    background: #f0f7f0;
+    cursor: default;
+    opacity: 0.8;
+  }
+  .program-icon { font-size: 1.6rem; }
+  .program-body { flex: 1; }
+  .program-name { font-weight: 600; font-size: 0.95rem; }
+  .program-desc { font-size: 0.8rem; color: var(--text-light); margin-top: 0.2rem; }
+  .program-status {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+  }
+  .program-status.pending { background: #fff3e0; color: var(--amber); }
+  .program-status.done { background: #e8f5e9; color: var(--sage); }
+
+  /* ─── SUMMARY ─── */
+  .summary-section {
+    border-left: 3px solid var(--sage);
+    padding: 0.75rem 0 0.75rem 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .summary-section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: var(--sage);
+    margin-bottom: 0.6rem;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.35rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row-label { color: var(--text-light); }
+  .summary-row-val { font-weight: 600; }
+  .summary-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #e8f5e9;
+    color: var(--sage);
+    border-radius: 20px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 0.2rem 0.2rem 0 0;
+  }
+
+  /* ─── WELCOME ─── */
+  .welcome-hero {
+    background: var(--forest);
+    border-radius: 20px;
+    padding: 2.5rem;
+    color: white;
+    margin-bottom: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-hero::before {
+    content: '🌿';
+    position: absolute;
+    right: 2rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 5rem;
+    opacity: 0.12;
+  }
+  .welcome-tagline {
+    font-size: 0.78rem;
+    color: var(--mint);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .welcome-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  .welcome-body {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.75);
+    max-width: 480px;
+  }
+  .quick-start-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .quick-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: var(--shadow);
+  }
+  .quick-card:hover {
+    border-color: var(--sage-light);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .quick-card-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+  .quick-card-title { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.2rem; }
+  .quick-card-desc { font-size: 0.78rem; color: var(--text-light); }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--forest);
+    color: white;
+    padding: 0.85rem 1.5rem;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 999;
+    max-width: 280px;
+  }
+  .toast.show { transform: none; opacity: 1; }
+
+  /* ─── SECTION HEADER ─── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-icon {
+    width: 44px; height: 44px;
+    background: var(--forest);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+  }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--forest); }
+  .section-desc { font-size: 0.85rem; color: var(--text-light); margin-top: 0.2rem; }
+
+  /* ─── MISC ─── */
+  .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+  .disclaimer {
+    background: #fff8ee;
+    border: 1.5px solid #ffe0b2;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.78rem;
+    color: #7a5c2a;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+  .disclaimer strong { color: var(--amber); }
+  .empty-state {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+  .empty-state-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+  @media (max-width: 700px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .form-row { grid-template-columns: 1fr; }
+    .quick-start-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-brand">
+    <div class="header-icon">🌿</div>
+    <div>
+      <div class="header-title">Community Support Hub</div>
+      <div class="header-sub">Connecting you to the resources you need</div>
+    </div>
+  </div>
+  <div class="header-user" id="headerUser">Guest</div>
+</header>
+
+<!-- APP LAYOUT -->
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-greeting">
+        <div class="sidebar-greeting-label">Welcome back</div>
+        <div class="sidebar-greeting-name" id="sidebarName">—</div>
+      </div>
+      <button class="nav-item active" onclick="showSection('welcome')" id="nav-welcome">
+        <span class="nav-icon">🏠</span> Home
+        <span class="nav-dot"></span>
+      </button>
+      <button class="nav-item" onclick="showSection('calculator')" id="nav-calculator">
+        <span class="nav-icon">🧮</span> Eligibility Calculator
+        <span class="nav-dot"></span>
+      </button>
+      <div class="nav-divider"></div>
+      <button class="nav-item" onclick="showSection('resources')" id="nav-resources">
+        <span class="nav-icon">🔗</span> Resource Links
+        <span class="nav-dot"></span>
+      </button>
+      <button class="nav-item" onclick="showSection('contacts')" id="nav-contacts">
+        <span class="nav-icon">📞</span> Emergency Contacts
+        <span class="nav-dot"></span>
+      </button>
+      <button class="nav-item" onclick="showSection('applications')" id="nav-applications">
+        <span class="nav-icon">📋</span> Apply for Aid
+        <span class="nav-dot"></span>
+      </button>
+      <div class="nav-divider"></div>
+      <button class="nav-item" onclick="showSection('summary')" id="nav-summary">
+        <span class="nav-icon">📄</span> My Summary
+        <span class="nav-dot"></span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN PANEL -->
+  <main class="main-panel">
+
+    <!-- WELCOME -->
+    <div class="section active" id="section-welcome">
+      <!-- Name prompt or welcome hero -->
+      <div id="namePromptCard" class="card">
+        <div class="card-title">Welcome to the Community Support Resource Hub</div>
+        <div class="card-sub">A free tool to help you explore financial assistance, housing support, food programs, and more. Let's start with your name.</div>
+        <div class="form-group">
+          <label for="nameInput">Your First Name</label>
+          <input type="text" id="nameInput" placeholder="e.g. Alex" maxlength="40">
+          <div class="field-error" id="nameError">Please enter your name to get started.</div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="setName()">Get Started →</button>
+        </div>
+      </div>
+      <div id="welcomeHero" style="display:none">
+        <div class="welcome-hero">
+          <div class="welcome-tagline">Community Support Resource Hub</div>
+          <div class="welcome-title">Hello, <span id="heroName"></span>. Let's find your support.</div>
+          <div class="welcome-body">Use the tools below to check your eligibility, browse curated resource links, save emergency contacts, and simulate applying for aid programs — all in one place.</div>
+        </div>
+        <div class="quick-start-grid">
+          <div class="quick-card" onclick="showSection('calculator')">
+            <div class="quick-card-icon">🧮</div>
+            <div class="quick-card-title">Check Eligibility</div>
+            <div class="quick-card-desc">Estimate your financial aid based on household size and income</div>
+          </div>
+          <div class="quick-card" onclick="showSection('resources')">
+            <div class="quick-card-icon">🔗</div>
+            <div class="quick-card-title">Browse Resources</div>
+            <div class="quick-card-desc">Food, housing, and education links tailored to your situation</div>
+          </div>
+          <div class="quick-card" onclick="showSection('contacts')">
+            <div class="quick-card-icon">📞</div>
+            <div class="quick-card-title">Emergency Contacts</div>
+            <div class="quick-card-desc">Save important contacts in one accessible place</div>
+          </div>
+          <div class="quick-card" onclick="showSection('applications')">
+            <div class="quick-card-icon">📋</div>
+            <div class="quick-card-title">Apply for Aid</div>
+            <div class="quick-card-desc">Simulate applying for FAFSA, housing, and food programs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="section" id="section-calculator">
+      <div class="section-header">
+        <div class="section-icon">🧮</div>
+        <div>
+          <div class="section-title">Eligibility Calculator</div>
+          <div class="section-desc">Estimate your monthly financial aid eligibility</div>
+        </div>
+      </div>
+      <div class="disclaimer">
+        <strong>⚠️ Disclaimer:</strong> These calculations are estimates based on Seattle-area cost of living and are <em>not</em> official determinations of real financial aid eligibility.
+      </div>
+      <div class="card">
+        <div class="card-title">Household Information</div>
+        <div class="card-sub">Tell us about your household size and income so we can estimate your eligibility.</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tax-paying Adults (Independents)</label>
+            <input type="number" id="inputIndependents" min="0" max="20" placeholder="e.g. 2">
+            <div class="field-error" id="errIndependents">Must be 0 or more.</div>
+          </div>
+          <div class="form-group">
+            <label>Children / Non-taxpayers (Dependents)</label>
+            <input type="number" id="inputDependents" min="0" max="20" placeholder="e.g. 3">
+            <div class="field-error" id="errDependents">Must be 0 or more.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Total Annual Household Income ($)</label>
+          <input type="number" id="inputIncome" min="0" placeholder="e.g. 45000">
+          <div class="field-error" id="errIncome">Must be 0 or more.</div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="runCalculator()">Calculate Eligibility</button>
+          <button class="btn btn-secondary" onclick="clearCalculator()">Clear</button>
+        </div>
+      </div>
+
+      <div id="calcResult" style="display:none" class="card">
+        <div class="card-title">Your Results</div>
+        <div id="resultBox" class="result-box"></div>
+        <div id="resultDetails" style="margin-top:0.5rem"></div>
+        <div class="divider"></div>
+        <p style="font-size:0.85rem;color:var(--text-light)">Ready to find matching resources? <a href="#" onclick="showSection('resources');return false;" style="color:var(--sage);font-weight:600;">Browse Resource Links →</a></p>
+      </div>
+    </div>
+
+    <!-- RESOURCES -->
+    <div class="section" id="section-resources">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
+        <div>
+          <div class="section-title">Resource Links</div>
+          <div class="section-desc">Programs matched to your financial situation</div>
+        </div>
+      </div>
+      <div id="resourcesNoCalc" class="card" style="display:none">
+        <div class="empty-state">
+          <div class="empty-state-icon">🧮</div>
+          <p>Complete the <strong>Eligibility Calculator</strong> first so we can show you the right resources for your situation.</p>
+          <div class="btn-group" style="justify-content:center;margin-top:1rem">
+            <button class="btn btn-primary" onclick="showSection('calculator')">Go to Calculator</button>
+          </div>
+        </div>
+      </div>
+      <div id="resourcesContent" style="display:none">
+        <div class="card">
+          <div class="resource-category">
+            <div class="resource-category-title">🍎 Food Assistance</div>
+            <div id="foodLinks"></div>
+          </div>
+          <div class="resource-category">
+            <div class="resource-category-title">🏠 Housing Support</div>
+            <div id="rentLinks"></div>
+          </div>
+          <div class="resource-category">
+            <div class="resource-category-title">🎓 Educational Funding</div>
+            <div id="eduLinks"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="section" id="section-contacts">
+      <div class="section-header">
+        <div class="section-icon">📞</div>
+        <div>
+          <div class="section-title">Emergency Contacts</div>
+          <div class="section-desc">Save contacts for quick access when you need them</div>
+        </div>
+      </div>
+      <div class="card">
+        <div id="contactsList"></div>
+        <button class="add-contact-btn" onclick="addContact()">+ Add Emergency Contact</button>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="saveContacts()">Save Contacts</button>
+          <button class="btn btn-secondary" onclick="clearContacts()">Clear All</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPLICATIONS -->
+    <div class="section" id="section-applications">
+      <div class="section-header">
+        <div class="section-icon">📋</div>
+        <div>
+          <div class="section-title">Apply for Aid</div>
+          <div class="section-desc">Simulate submitting aid applications</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Available Programs</div>
+        <div class="card-sub">Select a program to simulate applying. You can apply to each program once.</div>
+        <div id="programsList"></div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section" id="section-summary">
+      <div class="section-header">
+        <div class="section-icon">📄</div>
+        <div>
+          <div class="section-title">My Summary</div>
+          <div class="section-desc">A full overview of your session</div>
+        </div>
+      </div>
+      <div class="card" id="summaryContent"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────
+const state = {
+  name: '',
+  independents: null,
+  dependents: null,
+  totalIncome: null,
+  aidAmount: 0,
+  eligibility: 0,
+  calculatorDone: false,
+  contacts: [],
+  contactsSaved: false,
+  appliedFafsa: false,
+  appliedHousing: false,
+  appliedFood: false,
+};
+
+const FIRST_THRESHOLD = 20000;
+const SECOND_THRESHOLD = 100000;
+
+const foodLinks = [
+  { name: 'USA.gov Emergency Food Assistance', desc: 'Federal emergency food assistance programs', url: 'https://www.usa.gov/emergency-food-assistance', icon: '🍎' },
+  { name: 'WA DSHS Basic Food', desc: 'Washington State Basic Food program (SNAP)', url: 'https://www.dshs.wa.gov/esa/community-services-offices/basic-food', icon: '🍎' },
+  { name: 'Feeding America', desc: 'National hunger relief and SNAP outreach', url: 'https://www.feedingamerica.org/our-work/hunger-relief-programs/snap', icon: '🍎' },
+];
+const rentLinks = [
+  { name: 'Seattle Renting Help', desc: 'City of Seattle renter assistance resources', url: 'https://www.seattle.gov/rentinginseattle/renters/i-need-help', icon: '🏠' },
+  { name: 'Emergency Rental Assistance', desc: 'Federal emergency rental assistance program', url: 'https://home.treasury.gov/policy-issues/coronavirus/assistance-for-state-local-and-tribal-governments/emergency-rental-assistance-program', icon: '🏠' },
+  { name: 'USA Funding Applications', desc: 'Housing-focused funding application portal', url: 'https://usafundingapplications.org', icon: '🏠' },
+];
+const eduLinks = [
+  { name: 'FAFSA — Federal Student Aid', desc: 'Apply for federal grants, loans, and work-study', url: 'https://studentaid.gov/h/apply-for-aid/fafsa', icon: '🎓' },
+  { name: 'WSAC Student Aid', desc: 'Washington State student financial aid overview', url: 'https://wsac.wa.gov/sfa-overview', icon: '🎓' },
+  { name: 'USA Education Funding', desc: 'Education-focused funding application portal', url: 'https://usafundingapplications.org', icon: '🎓' },
+];
+
+const programs = [
+  { key: 'appliedFafsa', icon: '🎓', name: 'FAFSA', desc: 'Free Application for Federal Student Aid — academic scholarships and grants', appliedMsg: 'Applied for FAFSA successfully!' },
+  { key: 'appliedHousing', icon: '🏠', name: 'Seattle Rental Housing Program', desc: 'City of Seattle housing aid program for qualifying renters', appliedMsg: 'Applied for Seattle Rental Housing Program!' },
+  { key: 'appliedFood', icon: '🍎', name: 'Basic Food', desc: 'Washington State food assistance (SNAP) program for qualifying households', appliedMsg: 'Applied for Basic Food program!' },
+];
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  if (id === 'resources') renderResources();
+  if (id === 'summary') renderSummary();
+  if (id === 'applications') renderPrograms();
+}
+
+// ─── NAME ────────────────────────────────────────────────────────────
+function setName() {
+  const val = document.getElementById('nameInput').value.trim();
+  if (!val) {
+    document.getElementById('nameError').style.display = 'block';
+    document.getElementById('nameInput').classList.add('error');
+    return;
+  }
+  state.name = val;
+  document.getElementById('namePromptCard').style.display = 'none';
+  document.getElementById('welcomeHero').style.display = 'block';
+  document.getElementById('heroName').textContent = val;
+  document.getElementById('sidebarName').textContent = val;
+  document.getElementById('headerUser').textContent = val;
+}
+
+// ─── CALCULATOR ──────────────────────────────────────────────────────
+function calcAid(adults, income, children) {
+  if (adults + children === 0) return 0;
+  const incomePerPerson = (income / 12) / (adults + children);
+  let costOfLiving = 0, aid = 0;
+  if (children > 0) {
+    if (adults > 0) {
+      costOfLiving = 2700 * (adults + children);
+      aid = costOfLiving - (incomePerPerson * (adults + children));
+    } else {
+      costOfLiving = 3500 * (1 + children);
+      aid = costOfLiving - (incomePerPerson * children);
+    }
+  } else {
+    costOfLiving = 5000 * adults;
+    aid = costOfLiving - (incomePerPerson * adults);
+  }
+  return Math.max(0, Math.round(aid));
+}
+
+function runCalculator() {
+  let valid = true;
+  const ind = parseInt(document.getElementById('inputIndependents').value);
+  const dep = parseInt(document.getElementById('inputDependents').value);
+  const inc = parseInt(document.getElementById('inputIncome').value);
+
+  ['Independents','Dependents','Income'].forEach(f => {
+    document.getElementById('err'+f).style.display = 'none';
+    document.getElementById('input'+f).classList.remove('error');
+  });
+
+  if (isNaN(ind) || ind < 0) {
+    document.getElementById('errIndependents').style.display = 'block';
+    document.getElementById('inputIndependents').classList.add('error');
+    valid = false;
+  }
+  if (isNaN(dep) || dep < 0) {
+    document.getElementById('errDependents').style.display = 'block';
+    document.getElementById('inputDependents').classList.add('error');
+    valid = false;
+  }
+  if (isNaN(inc) || inc < 0) {
+    document.getElementById('errIncome').style.display = 'block';
+    document.getElementById('inputIncome').classList.add('error');
+    valid = false;
+  }
+  if (!valid) return;
+
+  state.independents = ind;
+  state.dependents = dep;
+  state.totalIncome = inc;
+  state.aidAmount = calcAid(ind, inc, dep);
+  state.eligibility = (ind + dep) > 0 ? inc / (ind + dep) : inc;
+  state.calculatorDone = true;
+
+  // Mark nav done
+  document.getElementById('nav-calculator').classList.add('completed');
+
+  const resultBox = document.getElementById('resultBox');
+  const resultDetails = document.getElementById('resultDetails');
+
+  if (state.aidAmount > 0) {
+    resultBox.className = 'result-box eligible';
+    resultBox.innerHTML = `
+      <div class="result-icon">✅</div>
+      <div>
+        <div class="result-label">Estimated Monthly Aid</div>
+        <div class="result-value">$${state.aidAmount.toLocaleString()}<span style="font-size:1rem;font-weight:400;color:var(--text-light)"> / month</span></div>
+        <div class="result-note">Based on Seattle-area cost of living estimates</div>
+      </div>`;
+  } else {
+    resultBox.className = 'result-box ineligible';
+    resultBox.innerHTML = `
+      <div class="result-icon">ℹ️</div>
+      <div>
+        <div class="result-label">Estimated Aid</div>
+        <div class="result-value" style="font-size:1.2rem">Not Eligible at This Time</div>
+        <div class="result-note">Your income appears to exceed the estimated threshold. Resource links are still available.</div>
+      </div>`;
+  }
+
+  resultDetails.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-top:0.5rem">
+      <div style="text-align:center;padding:0.75rem;background:var(--warm-white);border-radius:10px;border:1px solid var(--border)">
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-light);margin-bottom:0.3rem">Adults</div>
+        <div style="font-weight:700;font-size:1.2rem">${ind}</div>
+      </div>
+      <div style="text-align:center;padding:0.75rem;background:var(--warm-white);border-radius:10px;border:1px solid var(--border)">
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-light);margin-bottom:0.3rem">Dependents</div>
+        <div style="font-weight:700;font-size:1.2rem">${dep}</div>
+      </div>
+      <div style="text-align:center;padding:0.75rem;background:var(--warm-white);border-radius:10px;border:1px solid var(--border)">
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-light);margin-bottom:0.3rem">Annual Income</div>
+        <div style="font-weight:700;font-size:1.2rem">$${inc.toLocaleString()}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('calcResult').style.display = 'block';
+  document.getElementById('calcResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  showToast('Eligibility calculated!');
+}
+
+function clearCalculator() {
+  ['Independents','Dependents','Income'].forEach(f => {
+    document.getElementById('input'+f).value = '';
+    document.getElementById('err'+f).style.display = 'none';
+    document.getElementById('input'+f).classList.remove('error');
+  });
+  document.getElementById('calcResult').style.display = 'none';
+}
+
+// ─── RESOURCES ───────────────────────────────────────────────────────
+function getLinkIndex() {
+  if (state.eligibility <= FIRST_THRESHOLD) return 0;
+  if (state.eligibility <= SECOND_THRESHOLD) return 1;
+  return 2;
+}
+
+function renderResources() {
+  if (!state.calculatorDone) {
+    document.getElementById('resourcesNoCalc').style.display = 'block';
+    document.getElementById('resourcesContent').style.display = 'none';
+    return;
+  }
+  document.getElementById('resourcesNoCalc').style.display = 'none';
+  document.getElementById('resourcesContent').style.display = 'block';
+  document.getElementById('nav-resources').classList.add('completed');
+  const idx = getLinkIndex();
+  renderLinkList('foodLinks', foodLinks, idx, 'food');
+  renderLinkList('rentLinks', rentLinks, idx, 'housing');
+  renderLinkList('eduLinks', eduLinks, idx, 'education');
+}
+
+function renderLinkList(containerId, links, idx, type) {
+  const container = document.getElementById(containerId);
+  const link = links[idx];
+  const iconClass = `icon-${type}`;
+  const icons = { food: '🍎', housing: '🏠', education: '🎓' };
+  container.innerHTML = `
+    <a class="resource-link-card" href="${link.url}" target="_blank" rel="noopener">
+      <div class="resource-link-icon ${iconClass}">${icons[type]}</div>
+      <div class="resource-link-body">
+        <div class="resource-link-name">${link.name}</div>
+        <div class="resource-link-desc">${link.desc}</div>
+      </div>
+      <div class="resource-link-arrow">↗</div>
+    </a>`;
+}
+
+// ─── CONTACTS ────────────────────────────────────────────────────────
+function renderContactsList() {
+  const container = document.getElementById('contactsList');
+  if (state.contacts.length === 0) {
+    container.innerHTML = `<div class="empty-state" style="padding:1.5rem 0"><div class="empty-state-icon">📞</div><p>No contacts added yet.</p></div>`;
+    return;
+  }
+  container.innerHTML = state.contacts.map((c, i) => `
+    <div class="contact-entry">
+      <div class="contact-entry-label">Contact ${i + 1}</div>
+      <button class="contact-remove" onclick="removeContact(${i})">✕</button>
+      <div class="form-row" style="margin-bottom:0">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Name</label>
+          <input type="text" value="${c.name}" oninput="state.contacts[${i}].name=this.value" placeholder="Full name">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Phone Number</label>
+          <input type="tel" value="${c.phone}" oninput="state.contacts[${i}].phone=this.value" placeholder="206-555-0100">
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function addContact() {
+  state.contacts.push({ name: '', phone: '' });
+  renderContactsList();
+}
+
+function removeContact(i) {
+  state.contacts.splice(i, 1);
+  renderContactsList();
+}
+
+function clearContacts() {
+  state.contacts = [];
+  state.contactsSaved = false;
+  renderContactsList();
+}
+
+function isValidPhone(phone) {
+  const clean = phone.replace(/\s/g, '');
+  if (clean.includes('(') || clean.includes(')') || clean.includes('_')) return false;
+  if (clean.includes('-') && clean.length !== 12) return false;
+  if (!clean.includes('-') && clean.length !== 10) return false;
+  return true;
+}
+
+function saveContacts() {
+  for (const c of state.contacts) {
+    if (!c.name.trim()) { showToast('⚠️ All contacts need a name.'); return; }
+    if (!isValidPhone(c.phone)) { showToast(`⚠️ Invalid phone for ${c.name || 'contact'}. Use 10 digits or XXX-XXX-XXXX.`); return; }
+  }
+  state.contactsSaved = true;
+  document.getElementById('nav-contacts').classList.add('completed');
+  showToast('✅ Contacts saved!');
+}
+
+// ─── PROGRAMS ────────────────────────────────────────────────────────
+function renderPrograms() {
+  const container = document.getElementById('programsList');
+  container.innerHTML = programs.map(p => {
+    const applied = state[p.key];
+    return `
+      <div class="program-card ${applied ? 'applied' : ''}" onclick="${applied ? '' : `applyProgram('${p.key}', '${p.appliedMsg}')`}">
+        <div class="program-icon">${p.icon}</div>
+        <div class="program-body">
+          <div class="program-name">${p.name}</div>
+          <div class="program-desc">${p.desc}</div>
+        </div>
+        <div class="program-status ${applied ? 'done' : 'pending'}">${applied ? '✓ Applied' : 'Apply'}</div>
+      </div>`;
+  }).join('');
+}
+
+function applyProgram(key, msg) {
+  state[key] = true;
+  document.getElementById('nav-applications').classList.add('completed');
+  renderPrograms();
+  showToast('🎉 ' + msg);
+}
+
+// ─── SUMMARY ─────────────────────────────────────────────────────────
+function renderSummary() {
+  const container = document.getElementById('summaryContent');
+  let html = `<div class="card-title" style="margin-bottom:1.5rem">Session Summary — ${state.name || 'Guest'}</div>`;
+
+  if (state.calculatorDone) {
+    html += `<div class="summary-section">
+      <div class="summary-section-title">Household & Eligibility</div>
+      <div class="summary-row"><span class="summary-row-label">Adults (independents)</span><span class="summary-row-val">${state.independents}</span></div>
+      <div class="summary-row"><span class="summary-row-label">Dependents</span><span class="summary-row-val">${state.dependents}</span></div>
+      <div class="summary-row"><span class="summary-row-label">Annual household income</span><span class="summary-row-val">$${state.totalIncome.toLocaleString()}</span></div>
+      <div class="summary-row"><span class="summary-row-label">Estimated monthly aid</span><span class="summary-row-val" style="color:var(--sage)">${state.aidAmount > 0 ? '$' + state.aidAmount.toLocaleString() + '/mo' : 'Not eligible'}</span></div>
+    </div>`;
+  } else {
+    html += `<div class="summary-section"><div class="summary-section-title">Eligibility</div><p style="font-size:0.85rem;color:var(--text-light)">Calculator not completed.</p></div>`;
+  }
+
+  if (state.contactsSaved && state.contacts.length > 0) {
+    html += `<div class="summary-section"><div class="summary-section-title">Emergency Contacts</div>`;
+    state.contacts.forEach((c, i) => {
+      html += `<div class="summary-row"><span class="summary-row-label">${c.name || 'Contact ' + (i+1)}</span><span class="summary-row-val">${c.phone}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  const appliedAny = state.appliedFafsa || state.appliedHousing || state.appliedFood;
+  if (appliedAny) {
+    html += `<div class="summary-section"><div class="summary-section-title">Aid Applications</div><div style="padding-top:0.35rem">`;
+    if (state.appliedFafsa) html += `<span class="summary-tag">🎓 FAFSA</span>`;
+    if (state.appliedHousing) html += `<span class="summary-tag">🏠 Seattle Rental Housing</span>`;
+    if (state.appliedFood) html += `<span class="summary-tag">🍎 Basic Food</span>`;
+    html += `</div></div>`;
+  }
+
+  if (state.calculatorDone) {
+    const idx = getLinkIndex();
+    html += `<div class="summary-section"><div class="summary-section-title">Recommended Resources</div>
+      <div class="summary-row"><span class="summary-row-label">Food</span><a href="${foodLinks[idx].url}" target="_blank" style="color:var(--sage);font-size:0.85rem">${foodLinks[idx].name} ↗</a></div>
+      <div class="summary-row"><span class="summary-row-label">Housing</span><a href="${rentLinks[idx].url}" target="_blank" style="color:var(--sage);font-size:0.85rem">${rentLinks[idx].name} ↗</a></div>
+      <div class="summary-row"><span class="summary-row-label">Education</span><a href="${eduLinks[idx].url}" target="_blank" style="color:var(--sage);font-size:0.85rem">${eduLinks[idx].name} ↗</a></div>
+    </div>`;
+  }
+
+  html += `<div style="margin-top:1.5rem;padding:1rem;background:var(--warm-white);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-light);line-height:1.6">
+    <strong style="color:var(--forest)">Next Steps:</strong> Review available support programs · Contact local assistance services if needed · Save emergency contacts for quick access
+  </div>
+  <div style="margin-top:1.5rem;text-align:center;font-size:0.82rem;color:var(--text-light)">Thank you for using the Community Support Resource Hub.</div>`;
+
+  container.innerHTML = html;
+  document.getElementById('nav-summary').classList.add('completed');
+}
+
+// ─── TOAST ───────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────
+renderContactsList();
+</script>
+</body>
+</html>
